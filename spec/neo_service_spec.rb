@@ -100,6 +100,14 @@ describe 'Nasa NEO' do
       expect(@neo.get_estimated_diameter_keys).to be true
     end
 
+    it "should have min as a float" do
+      expect(@neo.estimated_diameter_type "estimated_diameter_min", Float).to eq true
+    end
+
+    it "should have max as a float" do
+      expect(@neo.estimated_diameter_type "estimated_diameter_max", Float).to eq true
+    end
+
     it "should have min diamter less than max diameter" do
       expect(@neo.min_max_diameter).to eq true
     end
@@ -134,5 +142,38 @@ describe 'Nasa NEO' do
       expect(@neo.close_approach_units "miss_distance", ["astronomical","lunar", "kilometers", "miles"]).to eq true
     end
 
+    it "should have relative velocity kps as a string" do
+      expect(@neo.close_approach_units_type "relative_velocity", "kilometers_per_second", String).to be true
+    end
+
+    it "should have relative velocity kph as a string" do
+      expect(@neo.close_approach_units_type "relative_velocity", "kilometers_per_hour", String).to be true
+    end
+
+    it "should have relative velocity mph as a string" do
+      expect(@neo.close_approach_units_type "relative_velocity", "miles_per_hour", String).to be true
+    end
+
+    it "should have miss distance astronomical as a string" do
+      expect(@neo.close_approach_units_type "miss_distance", "astronomical", String).to be true
+    end
+
+    it "should have miss distance lunar as a string" do
+      expect(@neo.close_approach_units_type "miss_distance", "lunar", String).to be true
+    end
+
+    it "should have miss distance kilometer as a string" do
+      expect(@neo.close_approach_units_type "miss_distance", "kilometers", String).to be true
+    end
+
+    it "should have miss distance miles as a string" do
+      expect(@neo.close_approach_units_type "miss_distance", "miles", String).to be true
+    end
+  end
+
+  context "element count" do
+    it "should be equal to the total number of elements" do
+      expect(@neo.neo["element_count"]).to eq @neo.neo["near_earth_objects"]["2018-10-19"].length + @neo.neo["near_earth_objects"]["2018-10-18"].length
+    end
   end
 end

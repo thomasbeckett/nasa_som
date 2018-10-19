@@ -65,6 +65,19 @@ class NeoService
     return true
   end
 
+  def estimated_diameter_type m, v
+    @neo["near_earth_objects"].each_key do |key|
+      @neo["near_earth_objects"][key].each do |object|
+        object["estimated_diameter"].each_key do |k|
+          unless object["estimated_diameter"][k][m].is_a? v
+            return false
+          end
+        end
+      end
+    end
+    return true
+  end
+
   def min_max_diameter
     @neo["near_earth_objects"].each_key do |key|
       @neo["near_earth_objects"][key].each do |object|
@@ -96,6 +109,19 @@ class NeoService
       @neo["near_earth_objects"][key].each do |object|
         object["close_approach_data"].each do |data|
           unless data[k].keys == units
+            return false
+          end
+        end
+      end
+    end
+    return true
+  end
+
+  def close_approach_units_type k1, k2, v
+    @neo["near_earth_objects"].each_key do |key|
+      @neo["near_earth_objects"][key].each do |object|
+        object["close_approach_data"].each do |data|
+          unless data[k1][k2].is_a? v
             return false
           end
         end
